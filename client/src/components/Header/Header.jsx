@@ -5,6 +5,7 @@ import usFlag from "../../assets/icons/usFlag.png";
 import { MdLocationPin } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
 import { FiShoppingCart } from "react-icons/fi";
+import LowerHeader from "./LowerHeader";
 
 function Header() {
   return (
@@ -63,6 +64,7 @@ function Header() {
           </div>
         </div>
       </div>
+      <LowerHeader />
     </>
   );
 }
