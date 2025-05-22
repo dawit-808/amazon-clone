@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Header.module.css";
-import logo from "../../assets/icons/amazonIcon.png";
-import usFlag from "../../assets/icons/usFlag.png";
+import logo from "./icons/amazonIcon.png";
+import usFlag from "./icons/usFlag.png";
 import { MdLocationPin } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
 import { FiShoppingCart } from "react-icons/fi";
