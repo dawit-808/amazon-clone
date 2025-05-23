@@ -6,12 +6,14 @@ import classes from "./CarouselEffect.module.css";
 
 function CarouselEffect() {
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <Carousel
-        autoPlay={true}
-        infiniteLoop={true}
+        autoPlay
+        infiniteLoop
         showIndicators={false}
         showThumbs={false}
+        showStatus={false}
+        interval={4000}
       >
         {img.map((item, index) => (
           <div key={index}>
@@ -20,7 +22,7 @@ function CarouselEffect() {
         ))}
       </Carousel>
       <div className={classes.hero_img}></div>
-    </>
+    </div>
   );
 }
 
