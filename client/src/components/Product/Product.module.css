@@ -1,14 +1,12 @@
 .product_container {
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
   padding: 2rem;
   grid-template-columns: repeat(2, 1fr);
 }
 
 /* Product Card */
 .card_container {
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
   padding: 1rem;
   background-color: #fff;
   display: flex;
