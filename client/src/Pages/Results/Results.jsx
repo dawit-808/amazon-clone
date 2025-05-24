@@ -5,10 +5,12 @@ import { useParams } from "react-router-dom";
 import { API_URL } from "../../Api/api";
 import axios from "axios";
 import ProductCard from "../../components/Product/ProductCard";
+import Loader from "../../components/Loader/Loader";
 
 function Results() {
   const { categoryName } = useParams();
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
@@ -18,26 +20,33 @@ function Results() {
       })
       .catch((err) => {
         console.error("Error fetching products:", err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [categoryName]);
 
   return (
     <>
       <LayOut>
-        <section>
-          <h2 className={classes.h1}>Results</h2>
-          <h4 className={classes.h4}>Category / {categoryName}</h4>
-          <hr />
-          <div className={classes.product_container}>
-            {results.length > 0 ? (
-              results.map((product) => (
-                <ProductCard key={product.id} {...product} />
-              ))
-            ) : (
-              <p>No products found in this category.</p>
-            )}
-          </div>
-        </section>
+        {loading ? (
+          <Loader />
+        ) : (
+          <section>
+            <h2 className={classes.h1}>Results</h2>
+            <h4 className={classes.h4}>Category / {categoryName}</h4>
+            <hr />
+            <div className={classes.product_container}>
+              {results.length > 0 ? (
+                results.map((product) => (
+                  <ProductCard key={product.id} {...product} />
+                ))
+              ) : (
+                <p>No products found in this category.</p>
+              )}
+            </div>
+          </section>
+        )}
       </LayOut>
     </>
   );

@@ -5,21 +5,24 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../Api/api";
 import ProductCard from "../../components/Product/ProductCard";
+import Loader from "../../components/Loader/Loader";
 
 function ProductDetail() {
-  const { id } = useParams(); // matches :id in route
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get(`${API_URL}/products/${id}`)
       .then((res) => setProduct(res.data))
-      .catch((err) => console.error("Failed to load product details:", err));
-  }, []);
+      .catch((err) => console.error("Failed to load product:", err))
+      .finally(() => setLoading(false));
+  }, [id]);
 
   return (
     <LayOut>
-      <ProductCard {...product} />
+      {loading ? <Loader /> : product && <ProductCard {...product} />}
     </LayOut>
   );
 }

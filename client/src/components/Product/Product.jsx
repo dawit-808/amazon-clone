@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import classes from "./Product.module.css";
 import ProductCard from "./ProductCard";
 import axios from "axios";
+import Loader from "../../components/Loader/Loader";
 
 function Product() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     axios
       .get("https://fakestoreapi.com/products")
@@ -13,14 +16,17 @@ function Product() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   return (
     <>
-      <section className={classes.product_container}>
-        {products &&
-          products.map((product) => (
+      {loading ? (
+        <Loader />
+      ) : (
+        <section className={classes.product_container}>
+          {products.map((product) => (
             <ProductCard
               key={product.id}
               id={product.id}
@@ -30,7 +36,8 @@ function Product() {
               rating={product.rating}
             />
           ))}
-      </section>
+        </section>
+      )}
     </>
   );
 }
