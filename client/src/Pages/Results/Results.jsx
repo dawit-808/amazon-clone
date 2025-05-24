@@ -12,7 +12,7 @@ function Results() {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/category/${categoryName}`)
+      .get(`${API_URL}/products/category/${categoryName}`)
       .then((res) => {
         setResults(res.data);
       })
