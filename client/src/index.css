@@ -1,7 +1,13 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: serif;
 }
 body {
   background-color: #e3e6e6;
+}
+
+:root {
+  --primary-color: #ffda21;
+  --secondary-color: #e1b400;
 }
