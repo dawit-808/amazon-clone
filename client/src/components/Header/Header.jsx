@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import classes from "./Header.module.css";
 import logo from "./icons/amazonIcon.png";
 import usFlag from "./icons/usFlag.png";
@@ -13,9 +14,9 @@ function Header() {
       <div className={classes.header_container}>
         {/* Logo and Location */}
         <div className={classes.left}>
-          <a href="/" className={classes.hoverBox}>
+          <Link to="/" className={classes.hoverBox}>
             <img src={logo} alt="Amazon Logo" className={classes.logo} />
-          </a>
+          </Link>
           <div className={`${classes.location} ${classes.hoverBox}`}>
             <MdLocationPin size={20} />
             <div>
@@ -48,20 +49,23 @@ function Header() {
             </select>
           </div>
 
-          <div className={`${classes.option} ${classes.hoverBox}`}>
+          <Link to="/auth" className={`${classes.option} ${classes.hoverBox}`}>
             <p>Hello, sign in</p>
             <strong>Account & Lists</strong>
-          </div>
+          </Link>
 
-          <div className={`${classes.option} ${classes.hoverBox}`}>
+          <Link
+            to="/orders"
+            className={`${classes.option} ${classes.hoverBox}`}
+          >
             <p>Returns</p>
             <strong>& Orders</strong>
-          </div>
+          </Link>
 
-          <div className={`${classes.cart} ${classes.hoverBox}`}>
+          <Link to="/cart" className={`${classes.cart} ${classes.hoverBox}`}>
             <FiShoppingCart size={28} />
             <span>0</span>
-          </div>
+          </Link>
         </div>
       </div>
       <LowerHeader />

@@ -11,3 +11,7 @@ body {
   --primary-color: #ffda21;
   --secondary-color: #e1b400;
 }
+a {
+  text-decoration: none;
+  color: inherit;
+}
