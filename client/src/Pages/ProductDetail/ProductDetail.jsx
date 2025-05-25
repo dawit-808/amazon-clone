@@ -22,7 +22,13 @@ function ProductDetail() {
 
   return (
     <LayOut>
-      {loading ? <Loader /> : product && <ProductCard {...product} />}
+      {loading ? (
+        <Loader />
+      ) : product ? (
+        <ProductCard product={product} flex={true} renderDesk={true} />
+      ) : (
+        <p>Product not found.</p>
+      )}
     </LayOut>
   );
 }
