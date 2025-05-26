@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import classes from "./Header.module.css";
 import logo from "./icons/amazonIcon.png";
@@ -7,10 +7,13 @@ import { MdLocationPin } from "react-icons/md";
 import { IoMdSearch } from "react-icons/io";
 import { FiShoppingCart } from "react-icons/fi";
 import LowerHeader from "./LowerHeader";
+import { DataContext } from "../DataProvider/DataProvider";
 
 function Header() {
+  const [{ basket }, dispatch] = useContext(DataContext);
+
   return (
-    <>
+    <section className={classes.fixed}>
       <div className={classes.header_container}>
         {/* Logo and Location */}
         <div className={classes.left}>
@@ -64,12 +67,12 @@ function Header() {
 
           <Link to="/cart" className={`${classes.cart} ${classes.hoverBox}`}>
             <FiShoppingCart size={28} />
-            <span>0</span>
+            <span>{basket.length}</span>
           </Link>
         </div>
       </div>
       <LowerHeader />
-    </>
+    </section>
   );
 }
 
