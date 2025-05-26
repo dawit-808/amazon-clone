@@ -23,7 +23,7 @@ function ProductCard({ product, flex, renderDesk }) {
         {renderDesk && <p className={classes.description}>{description}</p>}
 
         <div className={classes.rating}>
-          <Rating value={rating?.rate || 5} precision={0.1} />
+          <Rating name="half-rating" defaultValue={5} precision={0.1} />
           <small>{rating?.count}</small>
         </div>
 
