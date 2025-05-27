@@ -25,7 +25,12 @@ function ProductDetail() {
       {loading ? (
         <Loader />
       ) : product ? (
-        <ProductCard product={product} flex={true} renderDesk={true} />
+        <ProductCard
+          product={product}
+          flex={true}
+          renderDesk={true}
+          renderAdd={true}
+        />
       ) : (
         <p>Product not found.</p>
       )}
