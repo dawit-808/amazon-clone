@@ -2,13 +2,14 @@
   margin: 0;
   padding: 0;
   font-family: serif;
+  box-sizing: border-box;
 }
 body {
   background-color: #e3e6e6;
 }
 
 :root {
-  --primary-color: #ffda21;
+  --primary-color: #f7d116;
   --secondary-color: #e1b400;
 }
 a {
