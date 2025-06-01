@@ -22,32 +22,33 @@ function Auth() {
     e.preventDefault();
     const action = e.target.name;
 
-    if (!email || !password) {
-      alert("Please enter both email and password");
-      return;
-    }
-
     if (action === "signin") {
-      signInWithEmailAndPassword(auth, email, password)
+      signInWithEmailAndPassword(auth, email.trim(), password.trim())
         .then((userCredential) => {
           dispatch({
             type: Type.SET_USER,
             user: userCredential.user,
           });
+          setEmail("");
+          setPassword("");
+          setError("");
         })
-        .catch((error) => {
-          console.log("Sign-in error:", error.message);
+        .catch((err) => {
+          setError(err.message);
         });
     } else if (action === "signup") {
-      createUserWithEmailAndPassword(auth, email, password)
+      createUserWithEmailAndPassword(auth, email.trim(), password.trim())
         .then((userCredential) => {
           dispatch({
             type: Type.SET_USER,
             user: userCredential.user,
           });
+          setEmail("");
+          setPassword("");
+          setError("");
         })
-        .catch((error) => {
-          console.log("Sign-up error:", error.message);
+        .catch((err) => {
+          setError(err.message);
         });
     }
   };
@@ -108,6 +109,8 @@ function Auth() {
         >
           Sign Up
         </button>
+
+        {error && <small className={classes.error}>{error}</small>}
       </div>
     </section>
   );

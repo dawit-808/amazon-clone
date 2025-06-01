@@ -4,7 +4,6 @@
   align-items: center;
 }
 .auth img {
-  margin: 10px auto;
   object-fit: contain;
   width: 120px;
 }
@@ -69,4 +68,8 @@
 }
 .auth_container .signup_btn:hover {
   background: lightgray;
+}
+.auth_container .error {
+  padding-top: 5px;
+  color: red;
 }
