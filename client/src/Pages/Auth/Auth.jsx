@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import classes from "./Auth.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import iconBlack from "./icon/iconBlack.png";
 import { auth } from "../../Utility/firebase";
 import {
@@ -9,47 +9,57 @@ import {
 } from "firebase/auth";
 import { DataContext } from "../../components/DataProvider/DataProvider";
 import { Type } from "../../Utility/action.type";
+import { ClipLoader } from "react-spinners";
 
 function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState({
+    signin: false,
+    signup: false,
+  });
 
   const [{ user }, dispatch] = useContext(DataContext);
-  console.log(user);
+  const navigate = useNavigate();
 
-  const authHandler = (e) => {
+  const authHandler = async (e) => {
     e.preventDefault();
     const action = e.target.name;
 
-    if (action === "signin") {
-      signInWithEmailAndPassword(auth, email.trim(), password.trim())
-        .then((userCredential) => {
-          dispatch({
-            type: Type.SET_USER,
-            user: userCredential.user,
-          });
-          setEmail("");
-          setPassword("");
-          setError("");
-        })
-        .catch((err) => {
-          setError(err.message);
-        });
-    } else if (action === "signup") {
-      createUserWithEmailAndPassword(auth, email.trim(), password.trim())
-        .then((userCredential) => {
-          dispatch({
-            type: Type.SET_USER,
-            user: userCredential.user,
-          });
-          setEmail("");
-          setPassword("");
-          setError("");
-        })
-        .catch((err) => {
-          setError(err.message);
-        });
+    setLoading((prev) => ({ ...prev, [action]: true }));
+    setError("");
+
+    try {
+      let userCredential;
+
+      if (action === "signin") {
+        userCredential = await signInWithEmailAndPassword(
+          auth,
+          email.trim(),
+          password.trim()
+        );
+        navigate("/");
+      } else if (action === "signup") {
+        userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email.trim(),
+          password.trim()
+        );
+      }
+
+      dispatch({
+        type: Type.SET_USER,
+        user: userCredential.user,
+      });
+
+      setEmail("");
+      setPassword("");
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading((prev) => ({ ...prev, [action]: false }));
     }
   };
 
@@ -90,8 +100,13 @@ function Auth() {
             type="submit"
             name="signin"
             className={classes.signin_btn}
+            disabled={loading.signin || loading.signup}
           >
-            Sign In
+            {loading.signin ? (
+              <ClipLoader size={15} color="#111B21" />
+            ) : (
+              "Sign In"
+            )}
           </button>
         </form>
 
@@ -106,8 +121,13 @@ function Auth() {
           type="button"
           name="signup"
           className={classes.signup_btn}
+          disabled={loading.signin || loading.signup}
         >
-          Sign Up
+          {loading.signup ? (
+            <ClipLoader size={15} color="#111B21" />
+          ) : (
+            "Sign Up"
+          )}
         </button>
 
         {error && <small className={classes.error}>{error}</small>}

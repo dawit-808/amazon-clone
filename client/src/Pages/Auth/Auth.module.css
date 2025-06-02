@@ -47,7 +47,7 @@
   border-radius: 5px;
   background: var(--primary-color);
   width: 100%;
-  padding: 8px 0;
+  padding: 10px 0;
   margin-top: 10px;
   cursor: pointer;
 }
@@ -55,14 +55,14 @@
   background: var(--secondary-color);
 }
 .auth_container p {
-  padding: 10px 0;
+  padding: 12px 0;
   font-size: 14px;
 }
 .auth_container .signup_btn {
   border: none;
   border-radius: 5px;
   width: 100%;
-  padding: 8px 0;
+  padding: 12px 0;
   margin-top: 10px;
   cursor: pointer;
 }
@@ -70,6 +70,16 @@
   background: lightgray;
 }
 .auth_container .error {
-  padding-top: 5px;
-  color: red;
+  color: #ff3333;
+  margin-top: 12px;
+  display: block;
+  text-align: center;
+}
+/* For the loader alignment */
+.signin_btn,
+.signup_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
