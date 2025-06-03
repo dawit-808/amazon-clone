@@ -41,9 +41,8 @@ function Cart() {
               <h3>Your basket is empty</h3>
             ) : (
               basket.map((item) => (
-                <section className={classes.cart_product}>
+                <section key={item.id} className={classes.cart_product}>
                   <ProductCard
-                    key={item.id}
                     product={item}
                     renderDesk={true}
                     flex={true}

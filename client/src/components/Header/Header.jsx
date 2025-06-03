@@ -8,9 +8,10 @@ import { IoMdSearch } from "react-icons/io";
 import { FiShoppingCart } from "react-icons/fi";
 import LowerHeader from "./LowerHeader";
 import { DataContext } from "../DataProvider/DataProvider";
+import { auth } from "../../Utility/firebase";
 
 function Header() {
-  const [{ basket }, dispatch] = useContext(DataContext);
+  const [{ user, basket }, dispatch] = useContext(DataContext);
   const totalItem = basket?.reduce((amount, item) => {
     return item.amount + amount;
   }, 0);
@@ -55,9 +56,17 @@ function Header() {
             </select>
           </div>
 
-          <Link to="/auth" className={`${classes.option} ${classes.hoverBox}`}>
-            <p>Hello, sign in</p>
-            <strong>Account & Lists</strong>
+          <Link
+            to={user ? "/" : "/auth"}
+            className={`${classes.option} ${classes.hoverBox}`}
+            onClick={() => {
+              if (user) {
+                auth.signOut();
+              }
+            }}
+          >
+            <p>Hello, {user?.email ? user.email.split("@")[0] : "Sign In"}</p>
+            <strong>{user ? "Sign Out" : "Account & Lists"}</strong>
           </Link>
 
           <Link
@@ -69,7 +78,7 @@ function Header() {
           </Link>
 
           <Link to="/cart" className={`${classes.cart} ${classes.hoverBox}`}>
-            <FiShoppingCart size={28} />
+            <FiShoppingCart size={26} />
             <span>{totalItem}</span>
           </Link>
         </div>

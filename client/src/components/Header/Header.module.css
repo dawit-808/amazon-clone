@@ -125,18 +125,26 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 5px; /* Add some padding */
 }
 
 .cart span {
   position: absolute;
-  top: -2px;
-  right: -5px;
+  top: 0;
+  right: 0;
+  transform: translate(30%, -30%); /* This helps center the badge */
   background: orange;
-  color: black;
+  color: black !important;
   font-weight: bold;
-  font-size: 12px;
-  padding: 2px 6px;
+  font-size: 11px;
+  min-width: 18px; /* Ensure it's circular even with single digit */
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
+  line-height: 1;
 }
 
 /* Reusable hover box style */
