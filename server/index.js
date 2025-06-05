@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/payment/create", async (req, res) => {
-  const total = Number(req.query.total);
+  const total = Math.round(Number(req.query.total) * 100);
 
   if (total > 0) {
     try {

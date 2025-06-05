@@ -16,7 +16,7 @@
   min-width: 300px;
 }
 .flex img {
-  width: 80% !important;
+  width: 60% !important;
 }
 .flex div {
   height: auto !important;
@@ -44,4 +44,10 @@
 }
 .payment_details button:hover {
   background: var(--secondary-color);
+}
+
+@media screen and (max-width: 768px) {
+  .flex {
+    flex-direction: column;
+  }
 }
