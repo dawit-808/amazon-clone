@@ -8,6 +8,7 @@ import CurrencyFormat from "../../components/CurrencyFormat/CurrencyFormat";
 import { axiosInstance } from "../../Api/axios";
 import { ClipLoader } from "react-spinners";
 import { db } from "../../Utility/firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 function Payment() {
   const [{ user, basket }] = useContext(DataContext);
@@ -50,16 +51,14 @@ function Payment() {
       });
 
       // 3. Save payment info to Firestore (after successful payment)
-      await db
-        .collection("users")
-        .doc(user.uid)
-        .collection("orders")
-        .doc(paymentIntent.id)
-        .set({
+      await setDoc(
+        doc(collection(db, "users", user.uid, "orders"), paymentIntent.id),
+        {
           basket: basket,
           amount: paymentIntent.amount,
           created: paymentIntent.created,
-        });
+        }
+      );
 
       setProcessing(false);
       console.log("Payment Success:", paymentIntent);
