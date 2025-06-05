@@ -52,7 +52,26 @@ function Orders() {
               orders.map((eachOrder, i) => (
                 <div key={i}>
                   <hr />
-                  <p>Order Id: {eachOrder.id}</p>
+                  <p>
+                    Order ID: {eachOrder.id}
+                    <br />
+                    Ordered on:{" "}
+                    {new Date(eachOrder.data.created * 1000).toLocaleDateString(
+                      "en-US",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )}
+                    <br />
+                    Total:{" "}
+                    {(eachOrder.data.amount / 100).toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </p>
+
                   {eachOrder.data.basket.map((order) => (
                     <ProductCard flex={true} product={order} key={order.id} />
                   ))}
