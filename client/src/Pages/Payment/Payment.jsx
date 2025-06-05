@@ -32,48 +32,41 @@ function Payment() {
 
   const handlePayment = async (e) => {
     e.preventDefault();
-    // 1 connect backend to get client secrete
 
     try {
       setProcessing(true);
-      const response = await axiosInstance({
-        method: "POST",
-        url: `/payment/create?total=${total}`,
-      });
 
-      // console.log(response.data);
+      // 1. Get client secret from backend
+      const response = await axiosInstance.post(
+        `/payment/create?total=${total}`
+      );
       const clientSecret = response.data?.clientSecret;
 
-      // 2 confirmation on client side
-
+      // 2. Confirm card payment
       const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
         },
       });
 
-      console.log(paymentIntent);
+      // 3. Save payment info to Firestore (after successful payment)
+      await db
+        .collection("users")
+        .doc(user.uid)
+        .collection("orders")
+        .doc(paymentIntent.id)
+        .set({
+          basket: basket,
+          amount: paymentIntent.amount,
+          created: paymentIntent.created,
+        });
 
       setProcessing(false);
+      console.log("Payment Success:", paymentIntent);
     } catch (error) {
-      console.log(error);
+      console.error("Payment Failed:", error);
       setProcessing(false);
     }
-
-    // 3 store the data on firestore db, clear basket
-
-    await db
-      .collection("users")
-      .doc(user.uid)
-      .collection("orders")
-      .doc(paymentIntent.id)
-      .set({
-        basket: basket,
-        amount: paymentIntent.amount,
-        created: paymentIntent.created,
-      });
-
-    setProcessing(false);
   };
 
   return (
