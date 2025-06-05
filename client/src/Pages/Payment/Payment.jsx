@@ -7,6 +7,7 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import CurrencyFormat from "../../components/CurrencyFormat/CurrencyFormat";
 import { axiosInstance } from "../../Api/axios";
 import { ClipLoader } from "react-spinners";
+import { db } from "../../Utility/firebase";
 
 function Payment() {
   const [{ user, basket }] = useContext(DataContext);
@@ -40,18 +41,18 @@ function Payment() {
         url: `/payment/create?total=${total}`,
       });
 
-      console.log(response.data);
+      // console.log(response.data);
       const clientSecret = response.data?.clientSecret;
 
       // 2 confirmation on client side
 
-      const confirmation = await stripe.confirmCardPayment(clientSecret, {
+      const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
         },
       });
 
-      console.log(confirmation);
+      console.log(paymentIntent);
 
       setProcessing(false);
     } catch (error) {
@@ -60,6 +61,17 @@ function Payment() {
     }
 
     // 3 store the data on firestore db, clear basket
+
+    await db
+      .collection("users")
+      .doc(user.uid)
+      .collection("orders")
+      .doc(paymentIntent.id)
+      .set({
+        basket: basket,
+        amount: paymentIntent.amount,
+        created: paymentIntent.created,
+      });
 
     setProcessing(false);
   };
