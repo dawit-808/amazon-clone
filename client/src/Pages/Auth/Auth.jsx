@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import classes from "./Auth.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import iconBlack from "./icon/iconBlack.png";
 import { auth } from "../../Utility/firebase";
 import {
@@ -22,6 +22,7 @@ function Auth() {
 
   const [{ user }, dispatch] = useContext(DataContext);
   const navigate = useNavigate();
+  const navStateData = useLocation();
 
   const authHandler = async (e) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ function Auth() {
           email.trim(),
           password.trim()
         );
-        navigate("/");
+        navigate(navStateData?.state?.redirect || "/");
       } else if (action === "signup") {
         userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -55,7 +56,7 @@ function Auth() {
 
       setEmail("");
       setPassword("");
-      navigate("/");
+      navigate(navStateData?.state?.redirect || "/");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -71,6 +72,18 @@ function Auth() {
 
       <div className={classes.auth_container}>
         <h1>Sign In</h1>
+        {navStateData?.state?.msg && (
+          <small
+            style={{
+              padding: "5px",
+              textAlign: "center",
+              color: "red",
+              fontWeight: "bold",
+            }}
+          >
+            {navStateData?.state?.msg}
+          </small>
+        )}
 
         <form>
           <div>

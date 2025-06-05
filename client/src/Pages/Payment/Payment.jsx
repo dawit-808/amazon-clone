@@ -79,7 +79,7 @@ function Payment() {
           <div className={classes.flex}>
             <h1>Delivery Address</h1>
             <div>
-              <div>{user.email}</div>
+              <div>{user?.email}</div>
               <div>Addis Ababa</div>
               <div>Ethiopia</div>
             </div>
