@@ -9,6 +9,7 @@ import { axiosInstance } from "../../Api/axios";
 import { ClipLoader } from "react-spinners";
 import { db } from "../../Utility/firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function Payment() {
   const [{ user, basket }] = useContext(DataContext);
@@ -26,6 +27,7 @@ function Payment() {
 
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     e?.error?.message ? setCardError(e?.error?.message) : setCardError("");
@@ -61,7 +63,8 @@ function Payment() {
       );
 
       setProcessing(false);
-      console.log("Payment Success:", paymentIntent);
+      // console.log("Payment Success:", paymentIntent);
+      navigate("/orders", { state: { msg: "you have placed new order" } });
     } catch (error) {
       console.error("Payment Failed:", error);
       setProcessing(false);
