@@ -35,6 +35,8 @@ This is a full-stack web application built with:
 git clone https://github.com/dawit-808/amazon-clone.git
 cd yamazon-clone
 
+> ⚠️ This project uses your **local MySQL database**, your own **Firebase project**, and your **Stripe account**. Make sure to configure your `.env` file with the correct credentials.
+
 # Frontend
 cd client
 npm install
